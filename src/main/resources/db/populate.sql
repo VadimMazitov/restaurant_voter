@@ -16,7 +16,7 @@ INSERT INTO user_roles (user_id, role) VALUES
 INSERT INTO restaurants (name, rating, user_id) VALUES
     ('Palermo', 7.3, 100001);
 
-INSERT INTO meals (restaurant_id, description, price) VALUES
+INSERT INTO meals (restaurant_id, name, price) VALUES
     (100002, 'Breakfast', 70),
     (100002, 'Lunch', 50),
     (100002, 'Dinner', 100),
