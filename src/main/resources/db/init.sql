@@ -29,7 +29,7 @@ CREATE TABLE restaurants
 (
     id              INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     name            VARCHAR                     NOT NULL,
-    rating          REAL        DEFAULT 5.0     NOT NULL,
+    rating          INTEGER        DEFAULT 50  NOT NULL,
     user_id         INTEGER                     NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
@@ -42,4 +42,15 @@ CREATE TABLE meals
     price               INTEGER   NOT NULL,
     FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
+
+CREATE TABLE votes
+(
+    id              INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    user_id         INTEGER        NOT NULL,
+    restaurant_id   INTEGER        NOT NULL,
+    vote            INTEGER        NOT NULL,
+    FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) references users (id) ON DELETE CASCADE
+);
+    CREATE UNIQUE INDEX votes_unique_user_restaurant_idx ON votes (user_id, restaurant_id);
 

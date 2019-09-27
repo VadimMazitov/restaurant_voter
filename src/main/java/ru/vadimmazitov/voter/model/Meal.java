@@ -1,6 +1,9 @@
 package ru.vadimmazitov.voter.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
+import ru.vadimmazitov.voter.View;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,12 +18,11 @@ public class Meal extends AbstractNamedEntity {
     @Range(min = 10, max = 10000)
     private Integer price;
 
-//    Uni/Bi directional
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "restaurant_id")
-//    @OnDelete(action = OnDeleteAction.CASCADE)
-//    @NotNull(groups = View.Persist.class)
-//    private Restaurant restaurant;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull(groups = View.Persist.class)
+    private Restaurant restaurant;
 
     public Meal() {}
 
@@ -41,13 +43,13 @@ public class Meal extends AbstractNamedEntity {
         this.price = price;
     }
 
-//    public Restaurant getRestaurant() {
-//        return restaurant;
-//    }
-//
-//    public void setRestaurant(Restaurant restaurant) {
-//        this.restaurant = restaurant;
-//    }
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
 
     @Override
     public String toString() {
@@ -55,7 +57,7 @@ public class Meal extends AbstractNamedEntity {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-//                ", restaurant=" + restaurant +
+                ", restaurant=" + restaurant +
                 '}';
     }
 }
