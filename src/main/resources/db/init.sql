@@ -29,7 +29,7 @@ CREATE TABLE restaurants
 (
     id              INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     name            VARCHAR                     NOT NULL,
-    rating          REAL                        NOT NULL,
+    rating          REAL        DEFAULT 5.0     NOT NULL,
     user_id         INTEGER                     NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
@@ -39,7 +39,7 @@ CREATE TABLE meals
     id                  INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     restaurant_id       INTEGER   NOT NULL,
     name                TEXT      NOT NULL,
-    price               INT       NOT NULL,
+    price               INTEGER   NOT NULL,
     FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
 
