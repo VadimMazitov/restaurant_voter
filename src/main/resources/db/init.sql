@@ -46,9 +46,10 @@ CREATE TABLE meals
 CREATE TABLE votes
 (
     id              INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    user_id         INTEGER        NOT NULL,
-    restaurant_id   INTEGER        NOT NULL,
-    vote            INTEGER        NOT NULL,
+    user_id         INTEGER                     NOT NULL,
+    restaurant_id   INTEGER                     NOT NULL,
+    vote            INTEGER                     NOT NULL,
+    time            TIMESTAMP DEFAULT now()     NOT NULL,
     FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) references users (id) ON DELETE CASCADE
 );
