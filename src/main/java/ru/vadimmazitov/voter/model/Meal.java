@@ -57,7 +57,7 @@ public class Meal extends AbstractNamedEntity {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", restaurant=" + restaurant +
+                ", restaurant=" + restaurant.name +
                 '}';
     }
 }

@@ -6,6 +6,7 @@ import ru.vadimmazitov.voter.View;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "votes",
@@ -24,9 +25,13 @@ public class Vote extends AbstractBaseEntity {
     @NotNull(groups = View.Persist.class)
     private User user;
 
-    @Column(name = "vote")
+    @Column(name = "vote", nullable = false)
     @NotNull
     private Integer vote;
+
+    @Column(name = "datetime", nullable = false)
+    @NotNull
+    private LocalDateTime dateTime = LocalDateTime.now();
 
     public Vote() {}
 
@@ -67,9 +72,10 @@ public class Vote extends AbstractBaseEntity {
     public String toString() {
         return "Vote{" +
                 ", id=" + id +
-                "restaurant=" + restaurant +
+                "restaurant=" + restaurant.name +
                 ", user=" + user +
                 ", vote=" + vote +
+                ", datetime=" + dateTime +
                 '}';
     }
 }

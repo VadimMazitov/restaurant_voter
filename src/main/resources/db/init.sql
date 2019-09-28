@@ -49,7 +49,7 @@ CREATE TABLE votes
     user_id         INTEGER                     NOT NULL,
     restaurant_id   INTEGER                     NOT NULL,
     vote            INTEGER                     NOT NULL,
-    time            TIMESTAMP DEFAULT now()     NOT NULL,
+    datetime        TIMESTAMP DEFAULT now()     NOT NULL,
     FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) references users (id) ON DELETE CASCADE
 );
