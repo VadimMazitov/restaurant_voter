@@ -39,6 +39,10 @@ public class Restaurant extends AbstractNamedEntity {
         this(restaurant.getId(), restaurant.getName());
     }
 
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
     public Double getRating() {
         return rating;
     }
@@ -58,11 +62,6 @@ public class Restaurant extends AbstractNamedEntity {
     public List<Meal> getMenu() {
         return menu;
     }
-
-    public void setMenu(List<Meal> menu) {
-        this.menu = menu;
-    }
-
 
     @Override
     public String toString() {

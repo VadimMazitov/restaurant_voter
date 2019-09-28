@@ -14,10 +14,13 @@ INSERT INTO user_roles (user_id, role) VALUES
     (100001, 'ROLE_USER');
 
 INSERT INTO restaurants (name, rating, user_id) VALUES
-    ('Palermo', 7.3, 100001);
+    ('Palermo', 73, 100001);
 
 INSERT INTO meals (restaurant_id, name, price) VALUES
     (100002, 'Breakfast', 70),
     (100002, 'Lunch', 50),
     (100002, 'Dinner', 100),
     (100002, 'Supper', 120);
+
+INSERT INTO votes (user_id, restaurant_id, vote) VALUES
+    (100000, 100006, 74);
