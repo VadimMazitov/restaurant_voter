@@ -2,6 +2,7 @@ package ru.vadimmazitov.voter.model;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import ru.vadimmazitov.voter.HasUser;
 import ru.vadimmazitov.voter.View;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "restaurants")
 //TODO Cache
-public class Restaurant extends AbstractNamedEntity {
+public class Restaurant extends AbstractNamedEntity implements HasUser {
 
     @Column(name = "rating", nullable = false, columnDefinition = "REAL DEFAULT 5.0")
     private Double rating = 5.0;

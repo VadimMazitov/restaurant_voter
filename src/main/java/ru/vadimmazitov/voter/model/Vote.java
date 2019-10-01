@@ -2,6 +2,7 @@ package ru.vadimmazitov.voter.model;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import ru.vadimmazitov.voter.HasUser;
 import ru.vadimmazitov.voter.View;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "votes",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "restaurant_id"}, name = "votes_unique_user_restaurant_idx")})
-public class Vote extends AbstractBaseEntity {
+public class Vote extends AbstractBaseEntity implements HasUser {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)

@@ -3,6 +3,7 @@ package ru.vadimmazitov.voter.model;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
+import ru.vadimmazitov.voter.HasUser;
 import ru.vadimmazitov.voter.View;
 
 import javax.persistence.*;
@@ -11,18 +12,24 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "meals")
 //TODO Cache
-public class Meal extends AbstractNamedEntity {
+public class Meal extends AbstractNamedEntity implements HasUser {
 
     @Column(name = "price", nullable = false)
     @NotNull
     @Range(min = 10, max = 10000)
     private Integer price;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull(groups = View.Persist.class)
     private Restaurant restaurant;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull(groups = View.Persist.class)
+    private User user;
 
     public Meal() {}
 
@@ -33,6 +40,14 @@ public class Meal extends AbstractNamedEntity {
     public Meal(int id, String name, int price) {
         super(id, name);
         this.price = price;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Integer getPrice() {

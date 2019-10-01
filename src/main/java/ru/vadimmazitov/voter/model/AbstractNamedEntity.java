@@ -11,9 +11,9 @@ import javax.validation.constraints.Size;
 @MappedSuperclass
 public class AbstractNamedEntity extends AbstractBaseEntity {
 
+    @Column(name = "name", nullable = false)
     @NotBlank
     @Size(min = 2, max = 100)
-    @Column(name = "name", nullable = false)
     @SafeHtml(groups = {View.Web.class})
     protected String name;
 
