@@ -15,7 +15,7 @@ import java.util.List;
 public class Restaurant extends AbstractNamedEntity implements HasUser {
 
     @Column(name = "rating", nullable = false, columnDefinition = "REAL DEFAULT 5.0")
-    private Double rating = 5.0;
+    private Integer rating = 50;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -44,11 +44,11 @@ public class Restaurant extends AbstractNamedEntity implements HasUser {
         return votes;
     }
 
-    public Double getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(Double rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 
