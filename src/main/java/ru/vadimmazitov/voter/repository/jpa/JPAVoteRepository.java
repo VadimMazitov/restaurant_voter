@@ -34,4 +34,19 @@ public class JPAVoteRepository implements VoteRepository {
                 .setParameter("restaurantId", restaurantId)
                 .getResultList();
     }
+
+    @Override
+    public Vote get(int userId, int id) {
+        return em.createQuery("SELECT v FROM Vote v WHERE v.id=:id AND v.user.id=:userId order by v.dateTime DESC", Vote.class)
+                .setParameter("id", id)
+                .setParameter("userId", userId)
+                .getSingleResult();
+    }
+
+    @Override
+    public List<Vote> getAllForUser(int userId) {
+        return em.createQuery("SELECT v FROM Vote v WHERE v.user.id=:userId ORDER BY v.dateTime DESC", Vote.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
 }

@@ -53,7 +53,14 @@ public class JPARestaurantRepository implements RestaurantRepository {
 
     @Override
     public Restaurant get(int id) {
-        return em.find(Restaurant.class, id);
+        return em.createQuery("SELECT DISTINCT r FROM Restaurant r LEFT JOIN FETCH r.menu WHERE r.id=:id", Restaurant.class)
+                            .setParameter("id", id)
+                            .getSingleResult();
+    }
+
+    @Override
+    public Restaurant getReference(int id) {
+        return em.getReference(Restaurant.class, id);
     }
 
     @Override

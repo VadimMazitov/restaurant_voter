@@ -30,12 +30,6 @@ public class JPAUserRepository implements UserRepository {
     }
 
     @Override
-    public boolean delete(int id) {
-        Query query = em.createQuery("DELETE FROM User u WHERE u.id=:id");
-        return query.setParameter("id", id).executeUpdate() != 0;
-    }
-
-    @Override
     @Transactional
     public User get(int id) {
         return em.find(User.class, id);

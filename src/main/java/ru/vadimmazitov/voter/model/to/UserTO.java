@@ -1,14 +1,13 @@
 package ru.vadimmazitov.voter.model.to;
 
 import ru.vadimmazitov.voter.HasEmail;
-import ru.vadimmazitov.voter.model.Role;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Set;
 
+//TODO Delete
 public class UserTO extends BaseTO implements HasEmail, Serializable {
 
     private static final long serialVersionUID = 1L;
