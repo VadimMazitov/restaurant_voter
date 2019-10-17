@@ -3,7 +3,6 @@ package ru.vadimmazitov.voter.util;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import ru.vadimmazitov.voter.model.User;
-import ru.vadimmazitov.voter.model.to.UserTO;
 
 public class UserUtil {
 

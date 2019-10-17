@@ -18,7 +18,6 @@ public class VoteService {
     private final VoteRepository repository;
     private final RestaurantRepository restaurantRepository;
 
-
     @Autowired
     public VoteService(VoteRepository repository, RestaurantRepository restaurantRepository) {
         this.repository = repository;
@@ -47,7 +46,7 @@ public class VoteService {
         LocalTime elevenPM = LocalTime.of(23, 0);
 
         if (!actualDate.equals(nowDate) && !nowTime.isBefore(elevenPM))
-            throw new IllegalArgumentException("votes can be updated until 11pm on the same day");
+            throw new IllegalArgumentException("votes can be updated until 11pm on the voting day");
         repository.save(userId, updated);
     }
 
@@ -57,5 +56,9 @@ public class VoteService {
 
     public List<Vote> getAllForUser(int userId) {
         return repository.getAllForUser(userId);
+    }
+
+    public Vote get(int userId, int id) {
+        return repository.get(userId, id);
     }
 }

@@ -10,4 +10,7 @@ public interface UserRepository {
 //    null if not found
     User get(int id);
 
+    //    null if not found
+    User getByEmail(String email);
+
 }
