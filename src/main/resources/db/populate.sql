@@ -5,8 +5,8 @@ DELETE FROM users;
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
 INSERT INTO users (name, email, password) VALUES
-    ('User', 'user@yandex.ru', 'userPassword'),
-    ('Admin_Palermo', 'admin@yandex.ru', 'admin_password');
+    ('User', 'user@yandex.ru', '{noop}userPassword'),
+    ('Admin_Palermo', 'admin@yandex.ru', '{noop}admin_password');
 
 INSERT INTO user_roles (user_id, role) VALUES
     (100000, 'ROLE_USER'),

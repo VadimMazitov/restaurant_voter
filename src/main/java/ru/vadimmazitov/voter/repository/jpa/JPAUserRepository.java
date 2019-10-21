@@ -26,7 +26,6 @@ public class JPAUserRepository implements UserRepository {
         if (user.isNew()) {
             em.persist(user);
             return user;
-//            TODO check if id is returned
         } else {
             return em.merge(user);
         }

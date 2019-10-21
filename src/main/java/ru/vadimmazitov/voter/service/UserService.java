@@ -21,23 +21,22 @@ import static ru.vadimmazitov.voter.util.ValidationUtil.checkNotFoundWithId;
 public class UserService implements UserDetailsService {
 
     private final UserRepository repository;
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-//    TODO Put Password Encoder
     @Autowired
-    public UserService(UserRepository repository) {
+    public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
-//        this.passwordEncoder = passwordEncoder;
+        this.passwordEncoder = passwordEncoder;
     }
-//Put PasswordEncoder
+
     public User create(User user) {
         Assert.notNull(user, "user must not be null");
-        return repository.save(prepareToSave(user, null));
+        return repository.save(prepareToSave(user, passwordEncoder));
     }
 
     public void update(User user, int id) {
         Assert.notNull(user, "user must not be null");
-        repository.save(prepareToSave(user, null));
+        repository.save(prepareToSave(user, passwordEncoder));
     }
 
     public User get(int id) {

@@ -69,6 +69,7 @@ public class MealRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
+//    TODO fix that anybody can change meals of othe restaurants
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Validated(View.Web.class) @RequestBody Meal meal, @PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) {

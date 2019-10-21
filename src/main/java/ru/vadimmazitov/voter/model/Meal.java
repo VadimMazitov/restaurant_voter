@@ -1,5 +1,7 @@
 package ru.vadimmazitov.voter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
@@ -11,7 +13,6 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "meals")
-//TODO Cache
 public class Meal extends AbstractNamedEntity implements HasUser {
 
     @Column(name = "price", nullable = false)
@@ -23,6 +24,7 @@ public class Meal extends AbstractNamedEntity implements HasUser {
     @JoinColumn(name = "restaurant_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull(groups = View.Persist.class)
+    @JsonIgnore
     private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)

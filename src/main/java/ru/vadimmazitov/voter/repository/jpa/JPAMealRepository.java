@@ -32,7 +32,7 @@ public class JPAMealRepository implements MealRepository {
     @Transactional
     @SuppressWarnings("Duplicates")
     public Meal save(int adminId, int restaurantId, Meal meal) {
-        if (!meal.isNew() && (jpaUtil.getSecuredOnUser(adminId, meal.getId()) == null)) {
+        if (!meal.isNew() && (jpaUtil.getSecuredOnUser(adminId, meal.getId(), Restaurant.class) == null)) {
             return null;
         }
         meal.setUser(em.getReference(User.class, adminId));
@@ -48,7 +48,7 @@ public class JPAMealRepository implements MealRepository {
     @Override
     @Transactional
     public boolean delete(int adminId, int restaurantId, int id) {
-        if (jpaUtil.getSecuredOnUser(adminId, id) == null)
+        if (jpaUtil.getSecuredOnUser(adminId, id, Restaurant.class) == null)
             return false;
         Query query = em.createQuery("DELETE FROM Meal m WHERE m.id=:id");
         return query.setParameter("id", id).executeUpdate() != 0;

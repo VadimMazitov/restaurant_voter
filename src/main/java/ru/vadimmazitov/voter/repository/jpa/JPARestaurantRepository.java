@@ -31,7 +31,7 @@ public class JPARestaurantRepository implements RestaurantRepository {
     @Transactional
     @SuppressWarnings("Duplicates")
     public Restaurant save(int adminId, Restaurant restaurant) {
-        if (!restaurant.isNew() && (jpaUtil.getSecuredOnUser(adminId, restaurant.getId()) == null))
+        if (!restaurant.isNew() && (jpaUtil.getSecuredOnUser(adminId, restaurant.getId(), Restaurant.class) == null))
             return null;
         restaurant.setUser(em.getReference(User.class, adminId));
         if (restaurant.isNew()) {
@@ -44,8 +44,14 @@ public class JPARestaurantRepository implements RestaurantRepository {
 
     @Override
     @Transactional
+    public void updateRating(Restaurant restaurant) {
+        em.merge(restaurant);
+    }
+
+    @Override
+    @Transactional
     public boolean delete(int adminId, int id) {
-        if (jpaUtil.getSecuredOnUser(adminId, id) == null)
+        if (jpaUtil.getSecuredOnUser(adminId, id, Restaurant.class) == null)
             return false;
         Query query = em.createQuery("DELETE FROM Restaurant r WHERE r.id=:id");
         return query.setParameter("id", id).executeUpdate() != 0;

@@ -3,6 +3,7 @@ package ru.vadimmazitov.voter.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ru.vadimmazitov.voter.model.Restaurant;
 import ru.vadimmazitov.voter.model.Vote;
 import ru.vadimmazitov.voter.repository.RestaurantRepository;
 import ru.vadimmazitov.voter.repository.VoteRepository;
@@ -28,12 +29,22 @@ public class VoteService {
      * This method creates a vote. Restaurant is set manually, because there is no write-access to it from Jackson.
      * This is done for security reasons so that it is not possible to change restaurant of the vote when updating
      */
+//    TODO refactor
     public Vote create(int userId, int restaurantId, Vote vote) {
         Assert.notNull(vote, "vote must not be null");
-        vote.setRestaurant(restaurantRepository.getReference(restaurantId));
-        return repository.save(userId, vote);
+        Restaurant restaurant = restaurantRepository.getReference(restaurantId);
+        vote.setRestaurant(restaurant);
+        Vote created = repository.save(userId, vote);
+
+        List<Vote> votes = repository.getAllForRestaurant(restaurantId);
+        int rating = votes.stream().mapToInt(x -> x.getVote()).sum();
+        restaurant.setRating(rating);
+        restaurantRepository.updateRating(restaurant);
+
+        return created;
     }
 
+//    TODO refactor
     public void update(int userId, Vote updated) {
         LocalDateTime now = LocalDateTime.now();
         LocalDate nowDate = now.toLocalDate();
@@ -47,6 +58,15 @@ public class VoteService {
 
         if (!actualDate.equals(nowDate) && !nowTime.isBefore(elevenPM))
             throw new IllegalArgumentException("votes can be updated until 11pm on the voting day");
+
+        int restaurantId = updated.getRestaurant().getId();
+        Restaurant restaurant = restaurantRepository.getReference(restaurantId);
+
+        List<Vote> votes = repository.getAllForRestaurant(restaurantId);
+        int rating = votes.stream().mapToInt(x -> x.getVote()).sum();
+        restaurant.setRating(rating);
+        restaurantRepository.updateRating(restaurant);
+
         repository.save(userId, updated);
     }
 

@@ -21,4 +21,6 @@ public interface RestaurantRepository {
 //    ordered by name desc
     List<Restaurant> getAll();
 
+    void updateRating(Restaurant restaurant);
+
 }

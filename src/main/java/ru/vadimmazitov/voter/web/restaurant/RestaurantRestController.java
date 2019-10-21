@@ -22,7 +22,7 @@ import java.util.List;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @RestController
-@RequestMapping(value = "/restaurant-voter/rest/restaurants", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/rest/restaurants", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantRestController {
 
     private final Logger log = getLogger(getClass());
