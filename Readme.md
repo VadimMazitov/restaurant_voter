@@ -8,6 +8,6 @@ Java Enterprise Online Project
  - JPA (Hibernate)
  - REST (Jackson)
  - Java 8 Stream and Time API
- - PostgreSQL
+ - HSQL
  ---------------------------------
  ! However, not finished and properly checked yet
