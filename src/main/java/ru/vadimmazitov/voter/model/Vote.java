@@ -1,5 +1,6 @@
 package ru.vadimmazitov.voter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -26,6 +27,7 @@ public class Vote extends AbstractBaseEntity implements HasUser {
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull(groups = View.Persist.class)
+    @JsonIgnore
     private User user;
 
     @Column(name = "vote", nullable = false)
@@ -85,7 +87,7 @@ public class Vote extends AbstractBaseEntity implements HasUser {
     public String toString() {
         return "Vote{" +
                 ", id=" + id +
-                "restaurant=" + restaurant.name +
+                "restaurant=" + restaurant +
                 ", user=" + user +
                 ", vote=" + vote +
                 ", datetime=" + dateTime +

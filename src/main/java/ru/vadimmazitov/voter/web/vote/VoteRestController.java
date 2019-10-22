@@ -22,7 +22,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 //TODO change @Validated to @Valid (check from topjava project)
 @RestController
-@RequestMapping(value = "/rest/votes", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/rest/{restaurantId}/votes", produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteRestController {
 
     private final Logger log = getLogger(getClass());
@@ -37,7 +37,7 @@ public class VoteRestController {
     @SuppressWarnings("Duplicates")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Vote> create(@Validated(View.Web.class) @RequestBody Vote vote, @RequestParam("restaurantId") int restaurantId) {
+    public ResponseEntity<Vote> create(@Validated(View.Web.class) @RequestBody Vote vote, @PathVariable("restaurantId") int restaurantId) {
         log.info("create {}", vote);
         checkNew(vote);
         int userId = SecurityUtil.authUserId();
@@ -64,13 +64,13 @@ public class VoteRestController {
         return service.get(userId, id);
     }
 
-    @GetMapping("/{restaurantId}")
+    @GetMapping
     public List<Vote> getAllForRestaurant(@PathVariable("restaurantId") int restaurantId) {
         log.info("get all for restaurant with id={}", restaurantId);
         return service.getAllForRestaurant(restaurantId);
     }
 
-    @GetMapping
+    @GetMapping("/forUser")
     public List<Vote> getAllForUser() {
         int userId = SecurityUtil.authUserId();
         log.info("get all for user with id={}", userId);

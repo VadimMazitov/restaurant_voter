@@ -32,12 +32,15 @@ public class VoteService {
 //    TODO refactor
     public Vote create(int userId, int restaurantId, Vote vote) {
         Assert.notNull(vote, "vote must not be null");
-        Restaurant restaurant = restaurantRepository.getReference(restaurantId);
+
+        List<Vote> votes = repository.getAllForRestaurant(restaurantId);
+        votes.add(vote);
+        int rating = votes.stream().mapToInt(x -> x.getVote()).sum() / votes.size();
+
+        Restaurant restaurant = restaurantRepository.get(restaurantId);
         vote.setRestaurant(restaurant);
         Vote created = repository.save(userId, vote);
 
-        List<Vote> votes = repository.getAllForRestaurant(restaurantId);
-        int rating = votes.stream().mapToInt(x -> x.getVote()).sum();
         restaurant.setRating(rating);
         restaurantRepository.updateRating(restaurant);
 
@@ -52,12 +55,21 @@ public class VoteService {
 
         Vote actual = repository.get(userId, updated.getId());
         LocalDateTime actualDateTime = actual.getDateTime();
+        LocalTime actualTime = actual.getDateTime().toLocalTime();
         LocalDate actualDate = actualDateTime.toLocalDate();
 
         LocalTime elevenPM = LocalTime.of(23, 0);
+        LocalTime twelvePM = LocalTime.of(24, 0);
 
-        if (!actualDate.equals(nowDate) && !nowTime.isBefore(elevenPM))
-            throw new IllegalArgumentException("votes can be updated until 11pm on the voting day");
+        if (actualTime.isBefore(elevenPM)) {
+            if (!actualDate.equals(nowDate) && !nowTime.isBefore(elevenPM))
+                throw new IllegalArgumentException("The vote can be updated until 11pm on " + nowDate.toString());
+        } else {
+            if (!(actualDate.equals(nowDate) && nowTime.isBefore(twelvePM)) ||
+                    (actualDate.equals(nowDate.plusDays(1)) && nowTime.isBefore(elevenPM))) {
+                throw new IllegalArgumentException("The vote can be updated until 11pm on " + nowDate.plusDays(1).toString());
+            }
+        }
 
         int restaurantId = updated.getRestaurant().getId();
         Restaurant restaurant = restaurantRepository.getReference(restaurantId);

@@ -72,7 +72,6 @@ public class Restaurant extends AbstractNamedEntity implements HasUser {
                 ", id=" + id +
                 ", name='" + name + '\'' +
                 ", rating=" + rating +
-                ", user=" + user +
                 ", menu=" + menu +
                 '}';
     }
