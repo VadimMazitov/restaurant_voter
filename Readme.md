@@ -11,3 +11,4 @@ Java Enterprise Online Project
  - HSQL
  ---------------------------------
  ! However, not finished and properly checked yet
+ Please, find SOAP project to test the app

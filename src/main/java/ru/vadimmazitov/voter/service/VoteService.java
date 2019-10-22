@@ -2,6 +2,7 @@ package ru.vadimmazitov.voter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.vadimmazitov.voter.model.Restaurant;
 import ru.vadimmazitov.voter.model.Vote;
@@ -30,12 +31,16 @@ public class VoteService {
      * This is done for security reasons so that it is not possible to change restaurant of the vote when updating
      */
 //    TODO refactor
+    @Transactional
     public Vote create(int userId, int restaurantId, Vote vote) {
         Assert.notNull(vote, "vote must not be null");
 
         List<Vote> votes = repository.getAllForRestaurant(restaurantId);
         votes.add(vote);
+        System.out.println("---------------------------------------");
+        System.out.println(votes.size());
         int rating = votes.stream().mapToInt(x -> x.getVote()).sum() / votes.size();
+        System.out.println(rating);
 
         Restaurant restaurant = restaurantRepository.get(restaurantId);
         vote.setRestaurant(restaurant);
@@ -48,6 +53,7 @@ public class VoteService {
     }
 
 //    TODO refactor
+    @Transactional
     public void update(int userId, Vote updated) {
         LocalDateTime now = LocalDateTime.now();
         LocalDate nowDate = now.toLocalDate();
