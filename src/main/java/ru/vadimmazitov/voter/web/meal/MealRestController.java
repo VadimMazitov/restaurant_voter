@@ -22,7 +22,7 @@ import static ru.vadimmazitov.voter.util.ValidationUtil.assureIdConsistent;
 
 @RestController
 @RequestMapping(value = "/rest/restaurants/{restaurantId}/meals", produces = MediaType.APPLICATION_JSON_VALUE)
-public class MealRestController {
+public class  MealRestController {
 
     private final Logger log = getLogger(getClass());
 
@@ -69,7 +69,7 @@ public class MealRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-//    TODO fix that anybody can change meals of othe restaurants
+//    TODO fix that anybody can change meals of the restaurants
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Validated(View.Web.class) @RequestBody Meal meal, @PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) {

@@ -25,7 +25,7 @@
 
     <jsoup.version>1.12.1</jsoup.version>
 
-    <jackson-json.version>2.9.10</jackson-json.version>
+    <jackson-json.version>2.10.1</jackson-json.version>
 
     <!-- Hibernate -->
     <hibernate.version>5.4.3.Final</hibernate.version>

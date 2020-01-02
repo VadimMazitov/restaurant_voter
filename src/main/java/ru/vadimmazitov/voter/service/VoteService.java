@@ -26,33 +26,26 @@ public class VoteService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    /**
+    /*
      * This method creates a vote. Restaurant is set manually, because there is no write-access to it from Jackson.
      * This is done for security reasons so that it is not possible to change restaurant of the vote when updating
      */
-//    TODO refactor
     @Transactional
     public Vote create(int userId, int restaurantId, Vote vote) {
         Assert.notNull(vote, "vote must not be null");
 
-        List<Vote> votes = repository.getAllForRestaurant(restaurantId);
-        votes.add(vote);
-        System.out.println("---------------------------------------");
-        System.out.println(votes.size());
-        int rating = votes.stream().mapToInt(x -> x.getVote()).sum() / votes.size();
-        System.out.println(rating);
+        LocalDateTime now = LocalDateTime.now();
+        Restaurant restaurant = restaurantRepository.getReference(restaurantId);
 
-        Restaurant restaurant = restaurantRepository.get(restaurantId);
+        vote.setDateTime(now);
         vote.setRestaurant(restaurant);
         Vote created = repository.save(userId, vote);
 
-        restaurant.setRating(rating);
-        restaurantRepository.updateRating(restaurant);
+        updateRating(restaurant);
 
         return created;
     }
 
-//    TODO refactor
     @Transactional
     public void update(int userId, Vote updated) {
         LocalDateTime now = LocalDateTime.now();
@@ -65,7 +58,7 @@ public class VoteService {
         LocalDate actualDate = actualDateTime.toLocalDate();
 
         LocalTime elevenPM = LocalTime.of(23, 0);
-        LocalTime twelvePM = LocalTime.of(24, 0);
+        LocalTime twelvePM = LocalTime.MIDNIGHT;
 
         if (actualTime.isBefore(elevenPM)) {
             if (!actualDate.equals(nowDate) && !nowTime.isBefore(elevenPM))
@@ -77,15 +70,25 @@ public class VoteService {
             }
         }
 
-        int restaurantId = updated.getRestaurant().getId();
-        Restaurant restaurant = restaurantRepository.getReference(restaurantId);
+        actual.setVote(updated.getVote());
+        repository.save(userId, actual);
 
-        List<Vote> votes = repository.getAllForRestaurant(restaurantId);
-        int rating = votes.stream().mapToInt(x -> x.getVote()).sum();
+        int restaurantId = actual.getRestaurant().getId();
+
+        updateRating(restaurantId);
+    }
+
+    private void updateRating(int restaurantId) {
+        Restaurant restaurant = restaurantRepository.getReference(restaurantId);
+        updateRating(restaurant);
+    }
+
+    private void updateRating(Restaurant restaurant) {
+        List<Vote> votes = repository.getAllForRestaurant(restaurant.getId());
+        int size = votes.size();
+        int rating = votes.stream().mapToInt(Vote::getVote).sum() / size;
         restaurant.setRating(rating);
         restaurantRepository.updateRating(restaurant);
-
-        repository.save(userId, updated);
     }
 
     public List<Vote> getAllForRestaurant(int restaurantId) {

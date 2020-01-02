@@ -10,6 +10,7 @@ import java.util.List;
 
 import static ru.vadimmazitov.voter.util.ValidationUtil.checkNotFoundWithId;
 
+// TODO catch all the nulls from DAO and throw errors on them like in topjava
 @Service("mealService")
 public class MealService {
 
@@ -41,7 +42,4 @@ public class MealService {
     public List<Meal> getAllForRestaurant(int restaurantId) {
         return repository.getAllForRestaurant(restaurantId);
     }
-
-
-
 }

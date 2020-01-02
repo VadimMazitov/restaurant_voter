@@ -35,8 +35,7 @@ public class Vote extends AbstractBaseEntity implements HasUser {
     private Integer vote;
 
     @Column(name = "datetime", nullable = false)
-    @NotNull
-    private LocalDateTime dateTime = LocalDateTime.now();
+    private LocalDateTime dateTime;
 
     public Vote() {}
 
@@ -67,6 +66,10 @@ public class Vote extends AbstractBaseEntity implements HasUser {
         return dateTime;
     }
 
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
     public User getUser() {
         return user;
     }
@@ -86,8 +89,8 @@ public class Vote extends AbstractBaseEntity implements HasUser {
     @Override
     public String toString() {
         return "Vote{" +
-                ", id=" + id +
-                "restaurant=" + restaurant +
+                "id=" + id +
+                ", restaurant=" + restaurant +
                 ", user=" + user +
                 ", vote=" + vote +
                 ", datetime=" + dateTime +
